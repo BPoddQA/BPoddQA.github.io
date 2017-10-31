@@ -14,23 +14,23 @@ function dataToScreen(requestData) {
     for (let key in requestData) {
         let data = requestData[key];
         if (data.constructor === Array) {
-            createH2(key + ": ");
-            for (let i = 0; i < data.length; i++) {
-                for (let key2 in data[i]) {
-                    createParagraph(key2 + ": " + data[i][key2]);
-                }
-            }
+            outputMemberInfo(key, data)
         } else {
             outputSquadInfo(key, data);
         }
     }
 }
 
-function outputMemberInfo() {
+function outputMemberInfo(key, data) {
     createH2(key + ": ");
     for (let i = 0; i < data.length; i++) {
-        for (let key2 in data[i]) {
-            createParagraph(key2 + ": " + data[i][key2]);
+        let member = data[i];
+        for (let memberKey in member) {
+            if (memberKey == "name") {
+                createH3(member[memberKey]);
+            } else {
+                createParagraph(memberKey + ": " + member[memberKey]);
+            }
         }
     }
 }
