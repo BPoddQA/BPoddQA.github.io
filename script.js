@@ -102,30 +102,6 @@ function deletePara() {
 	e.parentNode.removeChild(e);
 }
 
-function jsonExample() {
-	let requestURL = "https://raw.githubusercontent.com/ewomackQA/JSONDataRepo/master/example.json";
-	let request = new XMLHttpRequest();
-	request.open("GET", requestURL);
-	request.responseType = "json";
-	request.send();
-	request.onload = function () {
-		let requestData = request.response;
-		for (let key in requestData) {
-			let data = requestData[key];
-			if (data.constructor === Array) {
-				createPara2(key + ": ")
-				for (let i = 0; i < data.length; i++) {
-					for (let key2 in data[i]) {
-						createPara2(key2 + ": " + data[i][key2]);
-					}
-				}
-			} else {
-				createPara2(key + ": " + data);
-			}
-		}
-	}
-}
-
 function jsonKingSearch() {
 	let search = document.getElementById("king").value;
 	let requestURL = "https://raw.githubusercontent.com/ewomackQA/JSONDataRepo/master/kings.json";
