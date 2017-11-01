@@ -1,24 +1,36 @@
+//given three inputs from text boxes on the webpage, this function loops from
+//1 to the given max number
+//every third number prints the given 'three' string
+//every five number prints the given 'five' string
+//
 function fizzBuzz() {
+    removeText()
 
-    let max = document.getElementById("max").value;
+    let max = parseInt(document.getElementById("max").value);
     let three = document.getElementById("three").value;
     let five = document.getElementById("five").value;
-    for (let i = 1; i <= max; i++) {
-        if (i % 3 == 0 && i % 5 == 0) {
-            out(i + ": " + (three + five));
-        } else if (i % 3 == 0) {
-            out(i + ": " + (three));
-        } else if (i % 5 == 0) {
-            out(i + ": " + (five));
-        } else {
-            out(i);
+    if (max && three && five) {
+        for (let i = 1; i <= max; i++) {
+            if (i % 3 == 0 && i % 5 == 0) {
+                out(i + ": " + (three + five));
+            } else if (i % 3 == 0) {
+                out(i + ": " + (three));
+            } else if (i % 5 == 0) {
+                out(i + ": " + (five));
+            } else {
+                out(i);
+            }
         }
+    } else {
+        out("Invalid data entry")
     }
 }
 
+//creates a div element on the webpage and inserts the given text
+//then adds a line break 
 function out(input) {
     let div = document.createElement("div");
-    div.setAttribute("id", "line");
+    div.setAttribute("id", "out");
     let text = document.createTextNode(input);
     div.appendChild(text);
     let br = document.createElement("br");
@@ -26,9 +38,9 @@ function out(input) {
     document.body.appendChild(div);
 }
 
-
+//removes all elements with the id of 'out'
 function removeText() {
-    if (document.getElementById("out")) {
+    while (document.getElementById("out")) {
         let e = document.getElementById("out");
         e.parentNode.removeChild(e);
     }
