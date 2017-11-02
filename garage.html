@@ -11,38 +11,49 @@
 <script type="text/javascript" src="garage.js"></script>
 
 <body>
+    <a href="project_list.html">back to project list</a>
     <div>
-        registration number<select id="selectIn"></select>
+        <select id="selectIn"></select>
         <button onclick="checkInButton()">check in to garage</button>
         <br>
         <br>
     </div>
 
     <div>
-        registration number<select id="selectOut"></select>
+        <select id="selectOut"></select>
         <button onclick="checkOutButton()">check out of garage</button><br>
         <br>
     </div>
 
     <div>
-        registration number<input type="text" id="regRep">
+        <input type="text" id="regRep" placeholder="Registration Number">
         <button onclick="repairCost()">cost of repairs</button><br>
         <br>
     </div>
 
-
+    <button onclick="outputGarage()">output garage</button><br>
+    <br>
+    <br>
+    <br>
 
     <div>
-        admin
-        <console></console>
-        <input type="text" id="admin">
+        admin<input type="text" id="admin">
         <button onclick="admin()">submit</button><br>
         <br>
+
+        <div>
+            <input type="text" id="createBrand" placeholder="Brand">
+            <input type="text" id="createReg" placeholder="Registration Number">
+            <input type="number" id="createFaults" placeholder="Number of faults">
+            <button onclick="createCarButton()">create car</button><br>
+            <br>
+        </div>
+
+        <button onclick="outputCars()">show all cars</button><br>
+        <br>
     </div>
-    <button onclick="outputGarage()">output garage</button><br>
-    <button onclick="outputCars()">show all cars</button><br>
 </body>
 
-<a href="project_list.html">back to project list</a>
+
 
 </html>

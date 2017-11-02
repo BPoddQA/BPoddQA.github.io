@@ -3,9 +3,26 @@ let garage = [];
 const cost = 30;
 
 function createCar(brand, reg, faults) {
-    let car = { brand: brand, reg: reg, faults: faults };
-    cars.push(car);
-    return car;
+    if (!getCar(reg)) {
+        let car = { brand: brand, reg: reg, faults: faults };
+        cars.push(car);
+        out(`Created new car => brand: ${brand} reg: ${reg} faults: ${faults}`)
+        addDropDownCheckIn(reg);
+    } else {
+        out("This car already exists");
+    }
+}
+
+function createCarButton() {
+    let brand = document.getElementById("createBrand").value;
+    let reg = document.getElementById("createReg").value;
+    let faults = parseInt(document.getElementById("createFaults").value);
+    if (brand && reg && faults) {
+        createCar(brand, reg, faults);
+    } else {
+        out("One or more inputs are invalid");
+    }
+
 }
 
 window.onload = function load() {
@@ -19,11 +36,11 @@ window.onload = function load() {
     cars.push({ brand: "Jaguar", reg: "gg77ggg", faults: 3 });
     cars.push({ brand: "Nissan", reg: "hh88hhh", faults: 5 });
     for (let i = 0; i < cars.length; i++) {
-        dropDownCheckIn(cars[i].reg);
+        addDropDownCheckIn(cars[i].reg);
     }
 }
 
-function dropDownCheckIn(reg) {
+function addDropDownCheckIn(reg) {
     let select = document.getElementById("selectIn");
     for (let i = 0; i < cars.length; i++) {
         if (reg === cars[i].reg) {
@@ -54,7 +71,7 @@ function removeDropDownOut(reg) {
     }
 }
 
-function dropDownCheckOut(reg) {
+function addDropDownCheckOut(reg) {
     let select = document.getElementById("selectOut");
 
     for (let i = 0; i < garage.length; i++) {
@@ -79,20 +96,22 @@ function getCar(reg) {
 }
 
 function checkIn(reg) {
-    if (!isInGarage(reg)) {
-        if (reg) {
+    if (reg) {
+        if (!isInGarage(reg)) {
             let car = getCar(reg);
             if (car) {
                 garage.push(car);
                 out(`checked in ${reg} to the garage`);
-                dropDownCheckOut(reg);
+                addDropDownCheckOut(reg);
                 removeDropDownIn(reg)
             } else {
                 out("car not found, click 'show all cars' to view cars");
             }
+        } else {
+            out("This car is already in the garage, to view the garage type 'output garage'");
         }
     } else {
-        out("This car is already in the garage, to view the garage type 'output garage'");
+        out("Invalid registration number");
     }
 }
 
@@ -102,35 +121,44 @@ function checkInButton() {
     if (index !== -1) {
         let reg = select.options[index].value;
         if (reg) {
-            let car = getCar(reg);
-            if (car) {
-                garage.push(car);
-                out(`checked in ${reg} to the garage`);
-                dropDownCheckOut(reg);
-                removeDropDownIn(reg);
-            } else {
-                out("car not found, click 'show all cars' to view cars");
-            }
+            checkIn(reg);
         }
     }
 }
 
 function checkOut(reg) {
-    if (isInGarage(reg)) {
-        if (reg) {
+    if (reg) {
+        if (isInGarage(reg)) {
             for (let i = 0; i < garage.length; i++) {
                 for (let key in garage[i]) {
                     if (garage[i][key] == reg) {
+                        fixCar(reg);
                         garage.splice(i, 1);
-                        dropDownCheckIn(reg);
+                        out(`checked out ${reg} from the garage`);
+                        addDropDownCheckIn(reg);
                         removeDropDownOut(reg);
                         break;
                     }
                 }
             }
+        } else {
+            out("This car is not in the garage, to view the garage type 'output garage'");
         }
-    } else {
-        out("This car is not in the garage, to view the garage type 'output garage'");
+    }
+}
+
+function fixCar(reg) {
+    if (reg) {
+        if (isInGarage(reg)) {
+            for (let i = 0; i < garage.length; i++) {
+                for (let key in garage[i]) {
+                    if (garage[i][key] == reg) {
+                        garage[i]["faults"] = 0;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -140,16 +168,7 @@ function checkOutButton() {
     if (index !== -1) {
         let reg = select.options[index].value;
         if (reg) {
-            for (let i = 0; i < garage.length; i++) {
-                for (let key in garage[i]) {
-                    if (garage[i][key] == reg) {
-                        garage.splice(i, 1);
-                        dropDownCheckIn(reg);
-                        removeDropDownOut(reg);
-                        break;
-                    }
-                }
-            }
+            checkOut(reg);
         }
     }
 }
@@ -167,13 +186,22 @@ function isInGarage(reg) {
 function repairCost() {
     let reg = document.getElementById("regRep").value;
     if (reg) {
-        for (let i = 0; i < garage.length; i++) {
-            for (let key in garage[i]) {
-                if (garage[i][key] == reg) {
-                    out("£" + garage[i]["faults"] * cost);
-                    break;
+        if (isInGarage(reg)) {
+            for (let i = 0; i < garage.length; i++) {
+                for (let key in garage[i]) {
+                    if (garage[i][key] == reg) {
+                        let thisCost = garage[i]["faults"] * cost;
+                        if (thisCost === 0) {
+                            out("There are no faults with this car, so there is no repair cost");
+                        } else {
+                            out("£" + garage[i]["faults"] * cost);
+                        }
+                        break;
+                    }
                 }
             }
+        } else {
+            out("This car is not in the garage, to view the garage type 'output garage'");
         }
     }
 }
@@ -268,10 +296,17 @@ function admin() {
         switch (array[0]) {
             case "create":
                 if (array.length != 5) {
-                    out(["ERROR: to create a car, use the format: create car <brand> <registration> <number_of_faults>", "please use an underscore instead of a space"]);
+                    out("ERROR: to create a car, use the format: create car <brand> <registration> <number_of_faults>");
                 } else {
                     if (array[1] != "car") {
-                        out(["ERROR: to create a car, use the format: create car <brand> <registration> <number_of_faults>", "please use an underscore instead of a space"]);
+                        out("ERROR: to create a car, use the format: create car <brand> <registration> <number_of_faults>");
+                    } else {
+                        array[4] = parseInt(array[4]);
+                        if (array[4]) {
+                            createCar(array[2], array[3], array[4]);
+                        } else {
+                            out("Invalid registration number");
+                        }
                     }
                 }
 
@@ -287,14 +322,11 @@ function admin() {
                 break;
             case "check":
                 if (array.length != 3) {
-                    out(["ERROR: to check in/out a car, use the format: check <in/out> <registration> ", "please use an underscore instead of a space"]);
+                    out("ERROR: to check in/out a car, use the format: check <in/out> <registration> ");
                 } else {
                     if (array[1] == "in") {
-                        //block if no cars left to checkIn
                         checkIn(array[2]);
                     } else if (array[1] == "out") {
-                        out(`Checked out ${array[2]} from the garage`);
-                        //block if no cars left to checkIn
                         checkOut(array[2]);
                     }
                 }
