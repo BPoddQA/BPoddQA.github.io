@@ -12,6 +12,7 @@ function jsonKingSearch() {
             for (let key in requestData[i]) {
                 if (requestData[i][key].includes(search)) {
                     out(requestData[i])
+                    break;
                 }
             }
         }

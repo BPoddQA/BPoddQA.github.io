@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html>
 
-<head></head>
+<head>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
 
 <script type="text/javascript" src="garage.js"></script>
 
 <body>
-
     <div>
-        registration number<input type="text" id="regIn">
-        <button onclick="checkIn()">check in to garage</button><br>
+        registration number<select id="selectIn"></select>
+        <button onclick="checkInButton()">check in to garage</button>
+        <br>
         <br>
     </div>
 
     <div>
-        registration number<input type="text" id="regOut">
-        <button onclick="checkOut()">check out of garage</button><br>
+        registration number<select id="selectOut"></select>
+        <button onclick="checkOutButton()">check out of garage</button><br>
         <br>
     </div>
+
     <div>
         registration number<input type="text" id="regRep">
         <button onclick="repairCost()">cost of repairs</button><br>
@@ -37,6 +43,6 @@
     <button onclick="outputCars()">show all cars</button><br>
 </body>
 
-<a  href="project_list.html">back to project list</a>
+<a href="project_list.html">back to project list</a>
 
 </html>
