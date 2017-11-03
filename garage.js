@@ -1,7 +1,10 @@
 "use strict";
 
+//array to hold all created cars
 let cars = [];
+//array to hold all cars in the garage
 let garage = [];
+//fixed cost for each fault
 const cost = 30;
 
 //upon loading the page, this function creates 8 cars and adds them to the array of created cars
@@ -211,71 +214,94 @@ function fixCar(reg) {
     }
 }
 
+//calculates the repair cost of a car given its registration number
+function repairCost(reg) {
+    if (reg) {
+        //if the car is in the garage
+        if (isInGarage(reg)) {
+            for (let i = 0; i < garage.length; i++) {
+                if (garage[i]["reg"] === reg) {
+                    //this cost = number of faults for this car * cost of each repair
+                    let thisCost = garage[i]["faults"] * cost;
+                    if (thisCost === 0) {
+                        out("There are no faults with this car, so there is no repair cost");
+                    } else {
+                        out(`The cost of repairs for this car is: £${thisCost}`);
+                    }
+                    break;
+                }
+            }
+        } else {
+            out("This car is not in the garage, to view the garage type 'output garage'");
+        }
+    }
+}
 
-
-function repairCost() {
+//this function takes input from the webpage and calls the repairCost function with the data
+function repairCostButton() {
     let select = document.getElementById("selectOut");
     let index = document.getElementById("selectOut").selectedIndex;
     if (index !== -1) {
         let reg = select.options[index].value;
         if (reg) {
-            if (isInGarage(reg)) {
-                for (let i = 0; i < garage.length; i++) {
-                    for (let key in garage[i]) {
-                        if (garage[i][key] === reg) {
-                            let thisCost = garage[i]["faults"] * cost;
-                            if (thisCost === 0) {
-                                out("There are no faults with this car, so there is no repair cost");
-                            } else {
-                                out("£" + garage[i]["faults"] * cost);
-                            }
-                            break;
-                        }
-                    }
-                }
-            } else {
-                out("This car is not in the garage, to view the garage type 'output garage'");
-            }
+            repairCost(reg);
         }
+    } else {
+        out("There are no cars in the garage");
     }
 }
 
+//outputs the cars in the garage to the screen
 function outputGarage() {
+    //removes any text on the screen
     removeText();
     if (garage.length === 0) {
         out("No cars in garage");
     }
     for (let i = 0; i < garage.length; i++) {
+        //outputs all the contents of the garage, to the screen
         outputObjects(garage[i]);
     }
 }
 
+//outputs all created cars to the screen
 function outputCars() {
+    //removes any text on the screen
     removeText();
     if (cars.length === 0) {
         out("No cars");
     }
     for (let i = 0; i < cars.length; i++) {
+        //outputs all the cars, to the screen
         outputObjects(cars[i]);
     }
 }
 
+//given an object, loop through it and output the contents to the screen inside a div element
 function outputObject(input) {
+    //remove any text on screen
     removeText()
+    //create div element
     let div = document.createElement("div");
     div.setAttribute("id", "div");
     let text;
+    //loop through object
     for (let key in input) {
+        //create text node with data in object
         text = document.createTextNode(input[key]);
         div.appendChild(text);
+        //add a new line for each item
         let br = document.createElement("br");
         div.appendChild(br);
     }
+    //add a new line at the end
     let br = document.createElement("br");
     div.appendChild(br);
+    //append to body of web page
     document.body.appendChild(div);
 }
 
+//behaves the same as 'outputObject'except this function doesn't remove any text which is already on the screen
 function outputObjects(input) {
     let div = document.createElement("div");
     div.setAttribute("id", "divs");
@@ -291,6 +317,7 @@ function outputObjects(input) {
     document.body.appendChild(div);
 }
 
+//outputs a single string to the screen inside a div element
 function out(input) {
     removeText()
     let div = document.createElement("div");
@@ -302,78 +329,123 @@ function out(input) {
     document.body.appendChild(div);
 }
 
-
+//removes any outputs already on the screen
 function removeText() {
+    //removes an element with the id 'line' (used in 'out' method)
     if (document.getElementById("line")) {
         let e = document.getElementById("line");
         e.parentNode.removeChild(e);
     }
+    //removes an element with the id 'div' (used in 'outputObject' method)
     if (document.getElementById("div")) {
         let e = document.getElementById("div");
         e.parentNode.removeChild(e);
     }
+    //removes all elements with the id 'divs' (used in 'outputObjects' method)
     while (document.getElementById("divs")) {
         let e = document.getElementById("divs");
         e.parentNode.removeChild(e);
     }
-    if (document.getElementById("divAdmin")) {
-        let e = document.getElementById("divAdmin");
-        e.parentNode.removeChild(e);
-    }
 }
 
-
-
+//processes an input string from the 'admin' textbox on the webpage
 function admin() {
+    //gets input from textbox with id 'admin
     let input = document.getElementById("admin").value;
     if (input) {
+        //create an array of the input, with each element split by a space
         let array = input.split(" ");
+        //switch on the first element
         switch (array[0]) {
+            //the first command is to create a new car
+            //format: create car <brand> <registration> <number_of_faults>
+            //example input for creating a car: create car Peugeot yk10ykm 3
+
+            //if the first word in the input is create            
             case "create":
+                //if the length of the input is greater than 5, print error
                 if (array.length != 5) {
                     out("ERROR: to create a car, use the format: create car <brand> <registration> <number_of_faults>");
                 } else {
+                    //if the second word is not car, print error
                     if (array[1] != "car") {
                         out("ERROR: to create a car, use the format: create car <brand> <registration> <number_of_faults>");
                     } else {
+                        //check if the 5th item in the array is a number
                         array[4] = parseInt(array[4]);
                         if (array[4]) {
+                            //create the car
                             createCar(array[2], array[3], array[4]);
                         } else {
                             out("Invalid registration number");
                         }
                     }
                 }
-
                 break;
+            //second command is to output the garage
+            //example input: output garage
+
+            //if the first word is 'output'
             case "output":
+                //if the input is longer than 2 words, print error
                 if (array.length != 2) {
                     out("ERROR: to output the cars in the garage use: output garage");
                 } else {
+                    //if the second word is garage, output the garage
                     if (array[1] === "garage") {
                         outputGarage();
                     }
                 }
                 break;
+            //third command is to output the cost of a car in the garage
+            //format: cost <registration>
+            //example cost yk10ykm
+
+            //if the first word is cost
+            case "cost":
+                //if the input is longer than 2 words, print error
+                if (array.length != 2) {
+                    out("ERROR: to check the repair cost of a car in the garage use: cost <registration>");
+                } else {
+                    //call the repair cost method using the second item in the array
+                    repairCost(array[1]);
+                }
+                break;
+            //the fourth and fifth commands are to check in, and check out cars to the garage
+            //format: check <in/out> <registration>
+            //example: check in yk10ykm
+
+            //if the first word is check
             case "check":
+                //if the input is longer than 3, print error
                 if (array.length != 3) {
                     out("ERROR: to check in/out a car, use the format: check <in/out> <registration> ");
                 } else {
+                    //if the second word is 'in' check in the car
                     if (array[1] === "in") {
                         checkIn(array[2]);
+                        //if the second word is 'out' check out the car
                     } else if (array[1] === "out") {
                         checkOut(array[2]);
                     }
                 }
                 break;
+            //final command is help
+            //format: help
+
+            //outputs a how to guide
             case "help":
                 let help = [];
                 help.push("To create a car ==> 'create car <brand> <registration> <number_of_faults>'");
                 help.push("To output the list of cars in the garage ==> 'output garage'");
                 help.push("To check a car into the garage ==> 'check in <registration>'");
                 help.push("To check a car out of the garage ==> 'check out <registration>'");
+                help.push("To check the repair cost of a car in the garage ==> 'cost <registration>'");
+                help.push("If the brand contains a space, please use an underscore instead");
+                help.push("When entering the registration number, do not include a space");
                 outputObject(help);
                 break;
+            //if none of the other cases match, output error and suggest typing help
             default:
                 out("Invalid entry: Try typing 'help' to see available commands")
         }
