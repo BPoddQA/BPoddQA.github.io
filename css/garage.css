@@ -1,0 +1,56 @@
+a{
+    font-family: verdana;
+}
+
+H3{
+    color: #BD5D38;
+}
+
+button {
+    width: 10%;
+    background-color: #BD5D38;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#createBrand,
+#createReg,
+#createFaults{
+    text-align: center;
+}
+
+#create{
+    text-align: center;
+    margin-top: -14%;
+    margin-left: -15%;
+}
+
+#admin{
+    text-align: center;
+    margin-top: -2.5%;
+    margin-left: 50%;
+}
+
+#car{
+
+text-align: center;
+margin-top: 15%;
+}
+
+#cars{
+
+text-align: left;
+margin-top: 10%;
+}
+
+#garage,
+#create
+{
+    text-align: center;
+    
+}
+

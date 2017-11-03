@@ -35,12 +35,12 @@ function createCar(brand, reg, faults) {
         //add this car to the array
         cars.push(car);
         //print out for this car being created
-        out(`Created new car => brand: ${brand} reg: ${reg} faults: ${faults}`)
+        out(`Created new car => brand: ${brand} reg: ${reg} faults: ${faults}`, "create")
         //adds this car to the check in dropdown menu
         addDropDown(reg, "selectIn");
     } else {
         //if the car is already in the created cars array print message
-        out("This car already exists");
+        out("This car already exists", "create");
     }
 }
 
@@ -133,7 +133,7 @@ function checkIn(reg) {
                 //add car to garage
                 garage.push(car);
                 //output text to screen to say car has successfully checked in
-                out(`checked in ${reg} to the garage`);
+                out(`checked in ${reg} to the garage`, "garage");
                 //add this registration number to the check out dropdown
                 addDropDown(reg, "selectOut");
                 //removes this registration number from the check in dropdown
@@ -173,7 +173,7 @@ function checkOut(reg) {
                     //remove car from garage
                     garage.splice(i, 1);
                     //output text to screen to say car has successfully checked out
-                    out(`checked out ${reg} from the garage`);
+                    out(`checked out ${reg} from the garage`, "garage");
                     //readd registration number to the check in dropdown
                     addDropDown(reg, "selectIn");
                     //remove registration number from the check out dropdown
@@ -252,15 +252,15 @@ function repairCostButton() {
 }
 
 //outputs the cars in the garage to the screen
-function outputGarage() {
+function outputGarage(name) {
     //removes any text on the screen
     removeText();
     if (garage.length === 0) {
-        out("No cars in garage");
+        out("No cars in garage", name);
     }
     for (let i = 0; i < garage.length; i++) {
         //outputs all the contents of the garage, to the screen
-        outputObjects(garage[i]);
+        outputObjects(garage[i], "garage");
     }
 }
 
@@ -273,7 +273,7 @@ function outputCars() {
     }
     for (let i = 0; i < cars.length; i++) {
         //outputs all the cars, to the screen
-        outputObjects(cars[i]);
+        outputObjects(cars[i], "car");
     }
 }
 
@@ -299,10 +299,11 @@ function outputObject(input) {
     div.appendChild(br);
     //append to body of web page
     document.body.appendChild(div);
+
 }
 
 //behaves the same as 'outputObject'except this function doesn't remove any text which is already on the screen
-function outputObjects(input) {
+function outputObjects(input, name) {
     let div = document.createElement("div");
     div.setAttribute("id", "divs");
     let text;
@@ -314,11 +315,18 @@ function outputObjects(input) {
     }
     let br = document.createElement("br");
     div.appendChild(br);
-    document.body.appendChild(div);
+    //determines where to output
+    if (name === "garage") {
+        document.getElementById("garage").appendChild(div);
+    } else if (name === "car") {
+        document.getElementById("car").appendChild(div);
+    } else {
+        document.body.appendChild(div);
+    }
 }
 
 //outputs a single string to the screen inside a div element
-function out(input) {
+function out(input, name = "test") {
     removeText()
     let div = document.createElement("div");
     div.setAttribute("id", "line");
@@ -326,8 +334,16 @@ function out(input) {
     div.appendChild(text);
     let br = document.createElement("br");
     div.appendChild(br);
-    document.body.appendChild(div);
+    //determines where to output
+    if (name === "garage") {
+        document.getElementById("garage").appendChild(div);
+    } else if (name === "create") {
+        document.getElementById("create").appendChild(div);
+    } else {
+        document.body.appendChild(div);
+    }
 }
+
 
 //removes any outputs already on the screen
 function removeText() {
@@ -351,7 +367,7 @@ function removeText() {
 //processes an input string from the 'admin' textbox on the webpage
 function admin() {
     //gets input from textbox with id 'admin
-    let input = document.getElementById("admin").value;
+    let input = document.getElementById("adminBox").value;
     if (input) {
         //create an array of the input, with each element split by a space
         let array = input.split(" ");
@@ -393,7 +409,7 @@ function admin() {
                 } else {
                     //if the second word is garage, output the garage
                     if (array[1] === "garage") {
-                        outputGarage();
+                        outputGarage("garage");
                     }
                 }
                 break;

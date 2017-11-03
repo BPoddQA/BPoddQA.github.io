@@ -1,7 +1,8 @@
 //if a given input is divisible by three, divide by three
 //else, add 1, or -1 to make it divisible
 function divideThree() {
-    removeText();
+    //removeText
+    document.getElementById("out").innerHTML = " ";
     let n = parseInt(document.getElementById("n").value);
     let count = 0;
     //until n becomes 1
@@ -30,17 +31,5 @@ function divideThree() {
 
 //outputs a single string to the screen inside a div element
 function out(input) {
-    let div = document.createElement("h3");
-    div.setAttribute("id", "line");
-    let text = document.createTextNode(input);
-    div.appendChild(text);
-    document.body.appendChild(div);
-}
-
-//removes any outputs already on the screen
-function removeText() {
-    while (document.getElementById("line")) {
-        let e = document.getElementById("line");
-        e.parentNode.removeChild(e);
-    }
+    document.getElementById("out").innerHTML += input + "<br>";
 }

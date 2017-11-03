@@ -4,7 +4,8 @@
 //every fifth number prints the given 'five' string
 //every third and fifth nnumber prints the given 'three' and 'five' string
 function fizzBuzz() {
-    removeText()
+    //removeText
+    document.getElementById("out").innerHTML = " ";
     let max = parseInt(document.getElementById("max").value);
     let three = document.getElementById("three").value;
     let five = document.getElementById("five").value;
@@ -26,22 +27,8 @@ function fizzBuzz() {
     }
 }
 
-//creates a div element on the webpage and inserts the given text
-//then adds a line break 
-function out(input) {
-    let div = document.createElement("div");
-    div.setAttribute("id", "out");
-    let text = document.createTextNode(input);
-    div.appendChild(text);
-    let br = document.createElement("br");
-    div.appendChild(br);
-    document.body.appendChild(div);
-}
 
-//removes all elements with the id of 'out'
-function removeText() {
-    while (document.getElementById("out")) {
-        let e = document.getElementById("out");
-        e.parentNode.removeChild(e);
-    }
+//output data to 'out' div
+function out(input) {
+    document.getElementById("out").innerHTML += input + "<br>";
 }

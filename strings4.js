@@ -18,8 +18,8 @@ function strings4() {
 //outputs a single string to the screen inside a div element
 function out(input) {
     removeText()
-    let div = document.createElement("h3");
-    div.setAttribute("id", "line");
+    let div = document.createElement("div");
+    div.setAttribute("id", "center");
     let text = document.createTextNode("Number of triples: " + input);
     div.appendChild(text);
     document.body.appendChild(div);
@@ -27,8 +27,8 @@ function out(input) {
 
 //removes any outputs already on the screen
 function removeText() {
-    if (document.getElementById("line")) {
-        let e = document.getElementById("line");
+    if (document.getElementById("center")) {
+        let e = document.getElementById("center");
         e.parentNode.removeChild(e);
     }
 }

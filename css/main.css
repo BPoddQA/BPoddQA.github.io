@@ -1,0 +1,79 @@
+body {
+    background-color: white;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+#H1{
+    text-decoration: underline;
+    text-align: center;
+    font-family: verdana;
+}
+
+#H2,
+#n,
+#para,
+#edit,
+#king,
+#string,
+#max,
+#three,
+#five{
+    
+    text-align: center;
+    font-family: verdana;
+}
+
+#mem{
+    text-decoration: underline;
+    text-align: center;
+    font-family: verdana;
+}
+
+#H3{
+    color: #BD5D38;
+    text-align: center;
+}
+
+div, 
+p,
+#center{
+    font-family: verdana;
+    font-size: 20px;
+    text-align: center;
+}
+
+#out {
+    font-family: verdana;
+    font-size: 20px;
+    text-align: left;
+    display: inline-block;
+}
+
+a{
+    font-family: verdana;
+}
+
+input::placeholder{
+    background-color: #BD5D38;
+    color: white;
+}
+
+input{
+    background-color: #BD5D38;
+    color: white;
+}
+
+button {
+    width: 10%;
+    background-color: #BD5D38;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+}

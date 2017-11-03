@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/garage.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,9 +12,13 @@
 
 <body>
     <a href="project_list.html">back to project list</a>
+    <h3>Garage</h3>
     <div>
         <select id="selectIn"></select>
         <button onclick="checkInButton()">check in to garage</button>
+
+
+
         <br>
         <br>
     </div>
@@ -24,29 +28,38 @@
         <button onclick="checkOutButton()">check out of garage</button><button onclick="repairCostButton()">cost of repairs</button><br>
         <br>
     </div>
-
-    <button onclick="outputGarage()">output garage</button><br>
-    <br>
-    <br>
-    <br>
-
     <div>
-
-
-        <div>
-            <input type="text" id="createBrand" placeholder="Brand">
-            <input type="text" id="createReg" placeholder="Registration Number">
-            <input type="number" id="createFaults" placeholder="Number of faults">
-            <button onclick="createCarButton()">create car</button><br>
-            <br> admin
-            <input type="text" id="admin">
-            <button onclick="admin()">submit</button><br>
-            <br>
-        </div>
-
-        <button onclick="outputCars()">show all created cars</button><br>
+        <button onclick="outputGarage('garage')">output garage</button><br>
         <br>
+        <br>
+
     </div>
+
+
+
+
+
+
+    <div id="create">
+        <input type="text" id="createBrand" placeholder="Brand">
+        <input type="text" id="createReg" placeholder="Registration Number">
+        <input type="number" id="createFaults" placeholder="Number of faults">
+        <button onclick="createCarButton()">create car</button>
+    </div>
+
+    <div id="admin">
+        <input type="text" id="adminBox" placeholder="admin">
+        <button onclick="admin()">submit</button>
+    </div>
+
+    <div id="cars">
+        <button onclick="outputCars()">show all created cars</button>
+    </div>
+
+
+    <div id="garage"></div>
+    <div id="create"></div>
+    <div id="car"></div>
 </body>
 
 
