@@ -1,0 +1,30 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="crypto.js"></script>
+</head>
+
+<body>
+    <a href="index.html">home</a>
+
+    <button onclick="crypto(true)">get all data</button>
+    <br>
+    <input type="text" id="amount" placeholder="amount of cryptocurrency">
+    <button onclick="usd()">calculate price in usd</button>
+    <br>
+
+    <table id="cryptoTable">
+        <thead>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Price_USD</th>
+        </thead>
+        <tbody id="cryptoData"> </tbody>
+    </table>
+</body>
+
+</html>
