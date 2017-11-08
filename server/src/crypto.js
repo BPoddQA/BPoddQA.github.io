@@ -34,17 +34,22 @@ function crypto(output) {
 async function getData() {
     const response = await fetch(`${url}`);
     const data = await response.json();
-    console.log("data retrieved");
     return data;
 }
 
 function usd() {
+    removeText()
     if (!gotData) {
-        crypto(false);
+        crypto(true);
     }
     let amount = parseInt(document.getElementById("amount").value);
     if (amount) {
-        
+        let tbl = document.getElementById("cryptoTable");
+        let tblBody = document.getElementById("cryptoData");
+        for (let i = 0; i < allData.length; i++) {
+            outTable(allData[i], tblBody, true, amount);
+        }
+        tbl.appendChild(tblBody);
     } else {
         out("invalid data entry");
     }
@@ -54,11 +59,15 @@ function usd() {
 
 
 //outputs a single string to the screen inside a div element
-function outTable(input, tblBody, calc) {
+function outTable(input, tblBody, calc, amount) {
     let row = document.createElement("tr");
     row.setAttribute("id", "data");
-
-    for (let i = 0; i < 4; i++) {
+    if (calc) {
+        columns = 5;
+    } else {
+        columns = 4;
+    }
+    for (let i = 0; i < columns; i++) {
         let cell = document.createElement("td");
         let temp = "";
         switch (i) {
@@ -75,9 +84,15 @@ function outTable(input, tblBody, calc) {
                 temp = "price_usd";
                 break;
         }
-        let cellText = document.createTextNode(input[temp]);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
+        if (calc && i === 4) {
+            let cellText = document.createTextNode(Number(input["price_usd"]) * amount);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+        } else {
+            let cellText = document.createTextNode(input[temp]);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+        }
     }
     tblBody.appendChild(row);
 }
@@ -112,16 +127,3 @@ function removeText() {
 }
 
 
-
-
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
-//NOT WORKING
